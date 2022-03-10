@@ -1,5 +1,10 @@
-import React, { Component } from 'react';
-import { Alert, Button, Text, TouchableOpacity, TextInput, View, StyleSheet, ImageBackground } from 'react-native';
+import { isLoading } from 'expo-font';
+import AnimatedLottieView from 'lottie-react-native';
+import React, { Component, useState } from 'react';
+import { Alert, Button, Text, TouchableOpacity, TextInput, View, StyleSheet, ActivityIndicator, SafeAreaView, StatusBar, ImageBackground} from 'react-native';
+import ViewWithLoading from '../components/ViewWithLoading';
+
+
 
 
 export default class App extends Component {
@@ -15,7 +20,6 @@ export default class App extends Component {
 
     Alert.alert('Credentials', `email: ${email} + password: ${password}`);
   }
-
   render() {
     return (
       <View style={styles.container}>
@@ -25,32 +29,35 @@ export default class App extends Component {
           value={this.state.email}
           keyboardType = 'email-address'
           onChangeText={(email) => this.setState({ email })}
-          placeholder='Enter Username'
+          placeholder='USERNAME'
           placeholderTextColor = 'white'
           style={styles.input}
         />
         <TextInput
           value={this.state.password}
           onChangeText={(password) => this.setState({ password })}
-          placeholder={'Enter Password'}
+          placeholder={'PASSWORD'}
           secureTextEntry={true}
           placeholderTextColor = 'white'
           style={styles.input}
         />
-     
         <TouchableOpacity
           style={styles.button}
           onPress={this.onLogin.bind(this)}
        >
          <Text style={styles.buttonText}> LOG IN </Text>
        </TouchableOpacity>
-        
-       <Text style={styles.titleText}>Forgot Password?</Text>
-      </View>
-    
-    
 
-    );
+       <Text style={styles.titleText}>Forgot Password?</Text>
+       
+       
+      <ViewWithLoading loading ={true}>
+      </ViewWithLoading>
+      </View>
+      
+      
+    )
+    
   }
 }
 
@@ -59,44 +66,58 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#455954'
+    backgroundColor: '#7393B3',
     
   },
   titleText:{
-    fontFamily: 'SpaceMono-Regular.ttf',
-    fontSize: 20,
+    fontFamily: 'Anton-Regular.ttf',
+    fontSize: 15,
     alignItems: 'center',
     justifyContent: 'center',
   },
   button: {
     alignItems: 'center',
-    backgroundColor: '#7aa39a',
-    width: 120,
+    width: 200,
     height: 45,
     padding: 10,
-    borderWidth: 1,
-    borderColor: 'white',
-    borderRadius: 15,
+    borderWidth: 2,
+    borderRadius: 30,
     marginBottom: 10,
+    backgroundColor: '#6082B6',
+    borderColor: 'black',
+    marginHorizontal: 50,
+    marginVertical: 10,
   },
   buttonText:{
-    fontFamily: 'SpaceMono-Regular.ttf',
+    fontFamily: 'Anton-Regular.ttf',
     fontSize: 16,
     alignItems: 'center',
     justifyContent: 'center',
   },
   input: {
     width: 250,
-    fontFamily: 'SpaceMono-Regular.ttf',
+    fontFamily: 'Anton-Regular.ttf',
     fontSize: 15,
     height: 50,
     padding: 10,
     borderWidth: 3,
-    borderColor: 'black',
+    borderColor: 'white',
     marginVertical: 10,
     alignItems: 'center',
     justifyContent: 'center'
   },
+  
 
-});
+
+},
+  
+
+  
+
+
+
+
+
+)
+
 
