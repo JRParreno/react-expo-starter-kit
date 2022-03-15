@@ -82,9 +82,11 @@ export default class SignUp extends React.Component {
           onChangeText={val => this.onChangeText('phone_number', val)}
         />
         <Button
-          title='REGISTER'
-          onPress={this.signUp}
-        />
+        onPress={this.signUp}
+        title="REGISTER"
+        color="#000080"
+        accessibilityLabel="All Done! You are now registered."
+/>
       </View>
     )
   }
