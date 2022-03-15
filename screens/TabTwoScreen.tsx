@@ -48,7 +48,7 @@ export default class App extends Component {
          <Text style={styles.buttonText}> LOG IN </Text>
        </TouchableOpacity>
 
-       <Text style={styles.titleText}>Forgot Password?</Text>
+       <Text style={styles.titleText}>FORGOT PASSWORD?</Text>
        
        
       <ViewWithLoading loading ={true}>
