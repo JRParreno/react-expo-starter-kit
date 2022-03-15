@@ -85,8 +85,7 @@ export default class SignUp extends React.Component {
         onPress={this.signUp}
         title="REGISTER"
         color="#000080"
-        accessibilityLabel="All Done! You are now registered."
-/>
+        accessibilityLabel="All Done! You are now registered." />
       </View>
     )
   }
