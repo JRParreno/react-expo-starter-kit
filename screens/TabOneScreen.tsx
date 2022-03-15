@@ -1,117 +1,123 @@
-import { isLoading } from 'expo-font';
-import AnimatedLottieView from 'lottie-react-native';
-import React, { Component, useState } from 'react';
-import { Alert, Button, Text, TouchableOpacity, TextInput, View, StyleSheet, ActivityIndicator, SafeAreaView, StatusBar, ImageBackground} from 'react-native';
-import ViewWithLoading from '../components/ViewWithLoading';
+import React from 'react'
+import {
+  View,
+  Button,
+  TextInput,
+  StyleSheet,
+  ImageBackground,
+  Image,
+  Text
+} from 'react-native'
 
-
-
-
-export default class App extends Component {
-
-    state = {
-      email: '',
-      password: '',
-    };
-  
-  
-  onLogin() {
-    const { email, password } = this.state;
-
-    Alert.alert('Credentials', `email: ${email} + password: ${password}`);
+export default class SignUp extends React.Component {
+  state = {
+    username: '', password: '', email: '', phone_number: '', first_name: '', last_name: '', confirm_pass: ''
   }
+  onChangeText = (key: string, val: string) => {
+    this.setState({ [key]: val })
+  }
+  signUp = async () => {
+    const { username, password, email, phone_number } = this.state
+    try {
+      // here place your signup logic
+      console.log('user successfully signed up!: ', success)
+    } catch (err) {
+      console.log('error signing up: ', err)
+    }
+  }
+ 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.titleText}>Hello!</Text>
-        <Text style={styles.titleText}>Welcome back you've been missed!</Text>
-        <TextInput
-          value={this.state.email}
-          keyboardType = 'email-address'
-          onChangeText={(email) => this.setState({ email })}
-          placeholder='USERNAME'
-          placeholderTextColor = 'white'
+        <Text style={styles.text}>SIGN UP NOW!</Text>
+         <TextInput
           style={styles.input}
+          placeholder='First Name'
+          autoCapitalize="none"
+          placeholderTextColor='white'
+          onChangeText={val => this.onChangeText('first_name', val)}
         />
         <TextInput
-          value={this.state.password}
-          onChangeText={(password) => this.setState({ password })}
-          placeholder={'PASSWORD'}
+          style={styles.input}
+          placeholder='Last Name'
+          autoCapitalize="none"
+          placeholderTextColor='white'
+          onChangeText={val => this.onChangeText('last_name', val)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder='Username'
+          autoCapitalize="none"
+          placeholderTextColor='white'
+          onChangeText={val => this.onChangeText('username', val)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder='Email'
+          autoCapitalize="none"
+          placeholderTextColor='white'
+          onChangeText={val => this.onChangeText('email', val)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder='Password'
           secureTextEntry={true}
-          placeholderTextColor = 'white'
-          style={styles.input}
+          autoCapitalize="none"
+          placeholderTextColor='white'
+          onChangeText={val => this.onChangeText('password', val)}
         />
-        <TouchableOpacity
-          style={styles.button}
-          onPress={this.onLogin.bind(this)}
-       >
-         <Text style={styles.buttonText}> LOG IN </Text>
-       </TouchableOpacity>
-
-       <Text style={styles.titleText}>Forgot Password?</Text>
-       
-       
-      <ViewWithLoading loading ={true}>
-      </ViewWithLoading>
+        <TextInput
+          style={styles.input}
+          placeholder='Confirm Password'
+          secureTextEntry={true}
+          autoCapitalize="none"
+          placeholderTextColor='white'
+          onChangeText={val => this.onChangeText('confirm_pass', val)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder='Phone Number'
+          autoCapitalize="none"
+          placeholderTextColor='white'
+          onChangeText={val => this.onChangeText('phone_number', val)}
+        />
+        <Button
+          title='REGISTER'
+          onPress={this.signUp}
+        />
       </View>
-      
-      
     )
-    
   }
 }
 
 const styles = StyleSheet.create({
+  input: {
+    width: 350,
+    height: 55,
+    backgroundColor: '#38555F',
+    margin: 10,
+    padding: 8,
+    color: 'white',
+    borderRadius: 14,
+    fontSize: 18,
+    fontWeight: '500',
+  },
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#AEC6CF',
+  },
+  text:{
+    fontFamily: 'Anton-Regular.ttf',
+    fontSize: 30,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#7393B3',
-    
-  },
-  titleText:{
-    fontFamily: 'Anton-Regular.ttf',
-    fontSize: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  button: {
-    alignItems: 'center',
-    width: 200,
-    height: 45,
-    padding: 10,
-    borderWidth: 2,
-    borderRadius: 30,
-    marginBottom: 10,
-    backgroundColor: '#6082B6',
-    borderColor: 'black',
-    marginHorizontal: 50,
-    marginVertical: 10,
-  },
-  buttonText:{
-    fontFamily: 'Anton-Regular.ttf',
-    fontSize: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  input: {
-    width: 250,
-    fontFamily: 'Anton-Regular.ttf',
-    fontSize: 15,
-    height: 50,
-    padding: 10,
-    borderWidth: 3,
-    borderColor: 'white',
-    marginVertical: 10,
-    alignItems: 'center',
-    justifyContent: 'center'
+    color: 'black',
+    fontWeight: 'bold',
   },
   
-
-
-},
-  
-
+  }
   
 
 
@@ -120,4 +126,6 @@ const styles = StyleSheet.create({
 
 )
 
-
+function success(arg0: string, success: any) {
+  throw new Error('Function not implemented.')
+}
