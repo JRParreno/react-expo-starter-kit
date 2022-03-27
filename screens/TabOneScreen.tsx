@@ -1,132 +1,165 @@
-import React from 'react'
+import React from 'react';
 import {
-  View,
-  Button,
+  SafeAreaView,
   TextInput,
+  Button,
+  ActivityIndicator,
+  Text,
+  View,
+  Alert,
   StyleSheet,
-  ImageBackground,
-  Image,
-  Text
-} from 'react-native'
+} from 'react-native';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import { withSafeAreaInsets } from 'react-native-safe-area-context';
 
-export default class SignUp extends React.Component {
-  state = {
-    username: '', password: '', email: '', phone_number: '', first_name: '', last_name: '', confirm_pass: ''
-  }
-  onChangeText = (key: string, val: string) => {
-    this.setState({ [key]: val })
-  }
-  signUp = async () => {
-    const { username, password, email, phone_number } = this.state
-    try {
-      // here place your signup logic
-      console.log('user successfully signed up!: ', success)
-    } catch (err) {
-      console.log('error signing up: ', err)
-    }
-  }
- 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.text}>SIGN UP NOW!</Text>
-         <TextInput
-          style={styles.input}
-          placeholder='First Name'
-          autoCapitalize="none"
-          placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('first_name', val)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder='Last Name'
-          autoCapitalize="none"
-          placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('last_name', val)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder='Username'
-          autoCapitalize="none"
-          placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('username', val)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder='Email'
-          autoCapitalize="none"
-          placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('email', val)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder='Password'
-          secureTextEntry={true}
-          autoCapitalize="none"
-          placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('password', val)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder='Confirm Password'
-          secureTextEntry={true}
-          autoCapitalize="none"
-          placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('confirm_pass', val)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder='Phone Number'
-          autoCapitalize="none"
-          placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('phone_number', val)}
-        />
-        <Button
-        onPress={this.signUp}
-        title="REGISTER"
-        color="#000080"
-        accessibilityLabel="All Done! You are now registered." />
-      </View>
-    )
-  }
-}
+const validationSchema = yup.object().shape({
+  email: yup.string().label('Email').email().required(),
+  firstname: yup.string().label('First Name').email().required(),
+  lastname: yup.string().label('Last Name').email().required(),
+  password: yup
+    .string()
+    .label('Password')
+    .required()
+    .min(2, 'Seems a bit short...')
+    .max(10, 'We prefer insecure system, try a shorter password.'),
+  confirmpassword: yup
+    .string()
+    .label('Confirm Password')
+    .required('Make sure to type the same as password')
+    .min(2, 'Seems a bit short...')
+    .max(10, 'We prefer insecure system, try a shorter password.'),
+});
 
-const styles = StyleSheet.create({
-  input: {
-    width: 350,
-    height: 55,
-    backgroundColor: '#38555F',
-    margin: 10,
-    padding: 8,
-    color: 'white',
-    borderRadius: 14,
-    fontSize: 18,
-    fontWeight: '500',
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#AEC6CF',
-  },
-  text:{
-    fontFamily: 'Anton-Regular.ttf',
-    fontSize: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'black',
-    fontWeight: 'bold',
-  },
-  
-  }
-  
+export default () => (
+  <SafeAreaView style={{ backgroundColor: 'white', flex: 1,}}>
+    <Formik
+      initialValues={{ email: '', password: '', firstname: '', lastname: '', confirmpassword: '',}}
+      onSubmit={(values, actions) => {
+        alert(JSON.stringify(values));
+        setTimeout(() => {
+          actions.setSubmitting(false);
+        }, 1000);
+      }}
+      validationSchema={validationSchema}
+    >
+      {(formikProps) => (
+        <React.Fragment>
+          <View style={{ marginHorizontal: 20, marginVertical: 5 }}>
+          <Text style={{ alignItems: 'center', fontSize: 30, fontWeight: 'bold', justifyContent: 'center',}}>REGISTRATION</Text>
+            <Text style={{ marginBottom: 3 }}>First Name</Text>
+            <TextInput
+              placeholder="First Name"
+              style={{
+                borderWidth: 1,
+                borderColor: 'black',
+                padding: 10,
+                marginBottom: 3,
+                color: 'black',
+                backgroundColor: '#AEC6CF',
+              }}
+              onChangeText={formikProps.handleChange('firstname')}
+              onBlur={formikProps.handleBlur('firstname')}
+              autoFocus
+            />
+            <Text style={{ color: 'red' }}>
+            </Text>
+          </View>
 
+          <View style={{ marginHorizontal: 20, marginVertical: 5 }}>
+            <Text style={{ marginBottom: 3 }}>Last Name</Text>
+            <TextInput
+              placeholder="Last Name"
+              style={{
+                borderWidth: 1,
+                borderColor: 'black',
+                padding: 10,
+                marginBottom: 3,
+                color: 'black',
+                backgroundColor: '#AEC6CF',
+              }}
+              onChangeText={formikProps.handleChange('lastname')}
+              onBlur={formikProps.handleBlur('lastname')}
+              autoFocus
+            />
+            <Text style={{ color: 'red' }}>
+            </Text>
+          </View>
 
+          <View style={{ marginHorizontal: 20, marginVertical: 5 }}>
+            <Text style={{ marginBottom: 3 }}>Email</Text>
+            <TextInput
+              placeholder="johndoe@example.com"
+              style={{
+                borderWidth: 1,
+                borderColor: 'black',
+                padding: 10,
+                marginBottom: 3,
+                color: 'black',
+                backgroundColor: '#AEC6CF',
+              }}
+              onChangeText={formikProps.handleChange('email')}
+              onBlur={formikProps.handleBlur('email')}
+              autoFocus
+            />
+            <Text style={{ color: 'red' }}>
+              {formikProps.touched.email && formikProps.errors.email}
+            </Text>
+          </View>
 
+          <View style={{ marginHorizontal: 20, marginVertical: 5 }}>
+            <Text style={{ marginBottom: 3 }}>Password</Text>
+            <TextInput
+              placeholder="Password"
+              style={{
+                borderWidth: 1,
+                borderColor: 'black',
+                padding: 10,
+                marginBottom: 3,
+                backgroundColor: '#AEC6CF',
+                color: 'black',
+              }}
+              onChangeText={formikProps.handleChange('password')}
+              onBlur={formikProps.handleBlur('password')}
+              secureTextEntry
+            />
+            <Text style={{ color: 'red' }}>
+              {formikProps.touched.password && formikProps.errors.password}
+            </Text>
+          </View>
 
+          <View style={{ marginHorizontal: 20, marginVertical: 5 }}>
+            <Text style={{ marginBottom: 3 }}>Confirm Password</Text>
+            <TextInput
+              placeholder="Confirm Password"
+              style={{
+                borderWidth: 1,
+                borderColor: 'black',
+                padding: 10,
+                marginBottom: 3,
+                backgroundColor: '#AEC6CF',
+                color: 'black',
+              }}
+              onChangeText={formikProps.handleChange('confirmpassword')}
+              onBlur={formikProps.handleBlur('confirmpassword')}
+              secureTextEntry
+            />
+            <Text style={{ color: 'red' }}>
+              {formikProps.touched.confirmpassword && formikProps.errors.confirmpassword}
+            </Text>
+          </View>
 
-)
+          {formikProps.isSubmitting ? (
+            <ActivityIndicator />
+          ) : (
+            <Button
+        title="SUBMIT"
+        onPress={() => Alert.alert('Simple Button pressed')}
+            />
+          )}
+        </React.Fragment>
+      )}
+    </Formik>
+  </SafeAreaView>
+);
 
-function success(arg0: string, success: any) {
-  throw new Error('Function not implemented.')
-}
